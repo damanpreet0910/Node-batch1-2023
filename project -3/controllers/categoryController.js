@@ -2,7 +2,7 @@ function addcategory(req,res)
 {
     res.json({
         'status':200,
-        'success':false,
+        'success':true,
         'msg':'Category inserted',
         'data':req.body
     })
