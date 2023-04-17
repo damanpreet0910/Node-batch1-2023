@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 4000
+const config = require('./config/db')
+
 app.use(express.urlencoded({extended:true}))
 
 const adminroutes = require('./routes/adminroutes')
