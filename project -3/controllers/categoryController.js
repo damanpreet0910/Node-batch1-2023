@@ -35,6 +35,64 @@ function addcategory(req,res)
     }
 }
 
+getall = (req,res)=>{
+    Category.find(req.body).exec()
+    .then(categorydata=>{
+        res.json({
+            status:200,
+            success:true,
+            msg : 'data loaded',
+            data:categorydata
+        })
+    })
+    .catch(err=>{
+        res.json({
+            status : 500,
+            success : false,
+            msg : 'Error Occur',
+            error : String(err)
+        })
+    })
+}
+
+getsingle = (req,res)=>{
+    var validate = ""
+    if(req.body._id == "")
+    {
+        validate += "_id is required"
+    }
+
+
+    if(!!validate)
+    {
+        res.json({
+            status:409,
+            success:false,
+            msg : validate
+        })
+    }
+    else{
+        Category.findOne({_id:req.body._id})
+        .then(categorydata=>{
+            res.json({
+                status:200,
+                success:true,
+                msg:'data loaded',
+                data:categorydata
+            })    
+        })
+        .catch(err=>{
+            res.json({
+                status : 500,
+                success : false,
+                msg : 'Error Occur',
+                error : String(err)
+            })
+        })
+    }
+}
 module.exports = {
-    addcategory
+    addcategory,
+    getall,
+    getsingle
 }
