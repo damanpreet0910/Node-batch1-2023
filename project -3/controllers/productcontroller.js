@@ -2,6 +2,10 @@ const Product = require('../models/productmodel')
 
 addproduct = (req,res)=>{
     var validate = ""
+    if(req.body.categoryId == "")
+    {
+        validate += "Category is required \n"
+    }
     if(req.body.product_name == "")
     {
         validate += "Product Name is required \n"
@@ -35,6 +39,7 @@ addproduct = (req,res)=>{
     else{
         //insert
         let productobject = new Product()
+        productobject.categoryId = req.body.categoryId
         productobject.product_name = req.body.product_name
         productobject.price = req.body.price
         productobject.quantity = req.body.quantity

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const productschema = new mongoose.Schema({
+    categoryId : { type : mongoose.SchemaTypes.ObjectId,ref:'category',default:null},
     product_name : { type : String,default:null},
     price : { type: Number,default:0},
     quantity : { type: Number,default:0},
