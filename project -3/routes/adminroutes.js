@@ -10,6 +10,8 @@ routes.post("/getallcategory",categorycontroller.getall)
 routes.post("/getsinglecategory",categorycontroller.getsingle)
 
 routes.post("/addproduct",productcontroller.addproduct)
+routes.post("/getallproduct",productcontroller.getall)
+routes.post("/updateproduct",productcontroller.update)
 
 routes.post("/addbrand",brandcontroller.addbrand)
 
