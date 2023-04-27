@@ -14,7 +14,9 @@ routes.post("/getallproduct",productcontroller.getall)
 routes.post("/updateproduct",productcontroller.update)
 
 routes.post("/addbrand",brandcontroller.addbrand)
-
+routes.post("/getallbrand",brandcontroller.getall)
+routes.post("/deletebrand",brandcontroller.deletebrand)
+routes.post("/enabledisablebrand",brandcontroller.enabledisablebrand)
 
 routes.post("/addstucomp",studentcompetitioncontroller.add)
 routes.post("/getallstucomp",studentcompetitioncontroller.getall)

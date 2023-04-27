@@ -44,6 +44,110 @@ addbrand = (req,res)=>{
     }
 }
 
+getall = (req,res)=>{
+    Brand.find(req.body)
+    .then(data=>{
+        res.json({
+            status:200,success:true,msg:"data loaded",data:data
+        })
+    })
+    .catch(err=>{
+        res.json({
+            status:500,success:false,msg:"error",error:String(err)
+        })
+    })
+}
+
+deletebrand = (req,res)=>{
+    var validate = ""
+    if(req.body._id == "")
+    {
+        validate += "ID is required \n"
+    }
+
+    if(!!validate)
+    {
+        //error msg 
+        res.json({
+            status:409,
+            success:false,
+            msg:validate
+        })
+    }
+    else{
+        //check whether data exists or not wrt particular ID
+        Brand.findOne({_id:req.body._id})
+        .then(data=>{
+            if(data == null)
+            {
+                res.json({
+                    status:409,
+                    success:false,
+                    msg:'no data found'
+                })
+            }
+            else{
+                //permanent delete
+                Brand.deleteOne({_id:req.body._id})
+                .then(data=>{
+                    res.json({
+                        status:200,success:true,msg:'Data Deleted'
+                    })
+                })
+            }
+        })
+    }
+}
+
+enabledisablebrand = (req,res)=>{
+    var validate = ""
+    if(req.body._id == "")
+    {
+        validate += "ID is required \n"
+    }
+    if(req.body.isblocked == "")
+    {
+        validate += "Status is required \n"
+    }
+
+    if(!!validate)
+    {
+        //error msg 
+        res.json({
+            status:409,
+            success:false,
+            msg:validate
+        })
+    }
+    else{
+        //check whether data exists or not wrt particular ID
+        Brand.findOne({_id:req.body._id})
+        .then(data=>{
+            if(data == null)
+            {
+                res.json({
+                    status:409,
+                    success:false,
+                    msg:'no data found'
+                })
+            }
+            else{
+                //enable/disbale
+                data.isblocked = req.body.isblocked
+                data.save()
+                res.json({
+                    status:200,success:true,msg:'Data Status changed'
+                })
+                
+            }
+        })
+    }
+}
+
+
 module.exports = {
-    addbrand
+    addbrand,
+    getall,
+    deletebrand,
+    enabledisablebrand
 }
