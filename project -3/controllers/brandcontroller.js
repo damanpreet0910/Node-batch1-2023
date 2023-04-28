@@ -45,7 +45,21 @@ addbrand = (req,res)=>{
 }
 
 getall = (req,res)=>{
-    Brand.find(req.body)
+
+    limit_num = 3
+    skip_count = 0
+
+    if(req.body.page_no >1)
+    {
+        skip_count = (req.body.page_no-1)*limit_num
+    }
+
+    // console.log("Skip Count = "+skip_count)
+
+    Brand.find()
+    .sort({_id:-1})
+    .limit(limit_num)
+    .skip(skip_count)
     .then(data=>{
         res.json({
             status:200,success:true,msg:"data loaded",data:data
