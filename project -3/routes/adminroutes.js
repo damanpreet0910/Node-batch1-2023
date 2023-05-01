@@ -5,6 +5,9 @@ const productcontroller = require('../controllers/productcontroller')
 const brandcontroller = require("../controllers/brandcontroller")
 const studentcompetitioncontroller = require("../controllers/studentcompetitioncontroller")
 const usercontroller = require("../controllers/usercontroller")
+const dashboardcontroller = require("../controllers/dashboardcontroller")
+
+routes.post("/dashboard",dashboardcontroller.dashboard)
 
 // category routes start 
 routes.post("/addcategory",categorycontroller.addcategory)
@@ -26,5 +29,6 @@ routes.post("/addstucomp",studentcompetitioncontroller.add)
 routes.post("/getallstucomp",studentcompetitioncontroller.getall)
 
 routes.post("/register",usercontroller.register)
+routes.post("/changepassword",usercontroller.changepassword)
 
 module.exports = routes
