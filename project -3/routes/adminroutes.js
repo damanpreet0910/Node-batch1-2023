@@ -7,6 +7,11 @@ const studentcompetitioncontroller = require("../controllers/studentcompetitionc
 const usercontroller = require("../controllers/usercontroller")
 const dashboardcontroller = require("../controllers/dashboardcontroller")
 
+routes.post("/register",usercontroller.register)
+routes.post("/changepassword",usercontroller.changepassword)
+routes.post("/login",usercontroller.login)
+
+routes.use(require('../config/middleware'))
 routes.post("/dashboard",dashboardcontroller.dashboard)
 
 // category routes start 
@@ -28,7 +33,6 @@ routes.post("/enabledisablebrand",brandcontroller.enabledisablebrand)
 routes.post("/addstucomp",studentcompetitioncontroller.add)
 routes.post("/getallstucomp",studentcompetitioncontroller.getall)
 
-routes.post("/register",usercontroller.register)
-routes.post("/changepassword",usercontroller.changepassword)
+
 
 module.exports = routes
