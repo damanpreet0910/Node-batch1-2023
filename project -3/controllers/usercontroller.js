@@ -62,69 +62,86 @@ register = (req,res)=>{
 }
 
 changepassword = (req,res)=>{
-    validator = ""
+    var validate = ""
     if(req.body.oldpassword == "")
-        validator += "Old Password is required"
+    {
+        validate += "Old Password is required \n"
+    }
     if(req.body.newpassword == "")
-        validator += "New Password is required"
+    {
+        validate += "New password is required \n"
+    }    
     if(req.body.confirmpassword == "")
-        validator += "Confirm Password is required"
+    {
+        validate += "confirm password is required \n"
+    }    
     if(req.body.userId == "")
-        validator += "User Id is required"
-    
-    if(!!validator)
+    {
+        validate += "User Id is required \n"
+    }    
+
+    if(!!validate)
     {
         res.json({
-            status: 200,
-            success:true,
-            msg:validator
+            status:409,
+            success:false,
+            msg:validate
         })
     }
     else{
         //compare new password with confirm password
         if(req.body.newpassword == req.body.confirmpassword)
         {
-            // res.json({
-            //     msg:"new password and confirm password are same"
-            // })
-            //get data with respect to user
+            //check user existance
             User.findOne({_id:req.body.userId})
             .then(userdata=>{
-                // console.log(userdata)
+                if(userdata == null)
+                {
+                    res.json({
+                        status:409,
+                        success:false,
+                        msg:"User not found"
+                    })   
+                }
+                else{
+                    //compare old password with db password
+                    console.log(req.body.oldpassword)
+                    bcrypt.compare(req.body.oldpassword,userdata.password,(err,data)=>{
+                    console.log(req.body.sdata)
 
-                //compare old password with database
-                bcrypt.compare(req.body.oldpassword,userdata.password,(data,err)=>{
-                    if(err)
-                    {
-                        res.json({
-                            status:409,
-                            success:false,
-                            msg:"old password not matched"
-                        })
-                    }
-                    else{
-                        //Update password
-                        userdata.password = bcrypt.hashSync(req.body.newpassword,saltround)
-                        userdata.save()
-                        res.json({
-                            status:200,
-                            success:true,
-                            msg:"Password Updated"
-                        })
-
-                    }
-                })
+                        if(data)
+                        {
+                            //Update password
+                            userdata.password = bcrypt.hashSync(req.body.newpassword,saltround)
+                            userdata.save()
+                            res.json({
+                                status:200,
+                                success:true,
+                                msg:"Password Changed"
+                            })
+                        }
+                        else{
+                            res.json({
+                                status:409,
+                                success:false,
+                                msg:"old password do not match"
+                            })
+                        }
+                    })
+                }
             })
         }
         else{
             res.json({
                 status:409,
                 success:false,
-                msg:"new password and confirm password are not same"
+                msg:"new password and confirm password don not match"
             })
         }
     }
 }
+
+
 
 login = (req,res)=>{
     validator = ""
