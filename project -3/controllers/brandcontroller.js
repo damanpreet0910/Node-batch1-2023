@@ -1,6 +1,9 @@
 const Brand = require('../models/brandmodel')
 
 addbrand = (req,res)=>{
+    // console.log(req.body)
+    // console.log(req.file)
+
     var validate = ""
     if(req.body.brand_name == "")
     { validate+= "Brand name is required" }
@@ -25,6 +28,10 @@ addbrand = (req,res)=>{
                 let brandobject = new Brand()
                 brandobject.brand_name = req.body.brand_name
                 brandobject.description = req.body.description
+                if(req.file)
+                {
+                    brandobject.brand_logo = "brand/"+req.file.filename
+                }
                 brandobject.save()
 
                 res.json({
