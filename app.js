@@ -9,7 +9,7 @@ app.get("/",function(req,res){
     res.json({
         'status':200,
         'success':true,
-        'msg':'My First api works'
+        'msg':'Deploy in First Cyclic'
     })
 })
 
